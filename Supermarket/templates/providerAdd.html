@@ -1,0 +1,69 @@
+﻿{% extends 'templates.html' %}
+
+{% block position %}
+<div class="location">
+    <strong>你现在所在的位置是:</strong>
+    <span>供应商管理页面 >> 供应商添加页面</span>
+</div>
+{% endblock %}
+
+{% block main %}
+<div class="providerAdd">
+    <form action="/res/providerAdd" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!--div的class 为error是验证错误，ok是验证成功-->
+        <div class="">
+            <label for="providerId">供应商编码：</label>
+            <input type="text" name="suppId" id="providerId" placeholder="*请输入供应商编码"/>
+            <span></span>
+            <span style="color: red">{{msg}}</span>
+        </div>
+        <div>
+            <label for="providerName">供应商名称：</label>
+            <input type="text" name="supplierName" id="providerName" placeholder="*请输入供应商名称"/>
+            <span></span>
+        </div>
+        <div>
+            <label for="people">联系人：</label>
+            <input type="text" name="linkman" id="people" placeholder="*请输入联系人"/>
+            <span></span>
+
+        </div>
+        <div>
+            <label for="phone">联系电话：</label>
+            <input type="text" name="tel" id="phone" placeholder="*请输入联系电话"/>
+            <span></span>
+        </div>
+        <div>
+            <label for="address">联系地址：</label>
+            <input type="text" name="addr" id="address" placeholder="*请输入联系人地址"/>
+            <span></span>
+        </div>
+        <div>
+            <label for="fax">传真：</label>
+            <input type="text" name="email" id="fax" placeholder="*请输入传真"/>
+            <span></span>
+        </div>
+        <div>
+            <label for="describe">描述：</label>
+            <input type="text" name="desc" id="describe" placeholder="*描述"/>
+        </div>
+        <div class="providerAddBtn">
+            <!--<a href="#">保存</a>-->
+            <!--<a href="providerList.html">返回</a>-->
+            <input id="save" type="button" value="保存" onclick="history.back(-1)"/>
+            <input type="button" value="返回" onclick="history.back(-1)"/>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block useradd %}
+<script>
+    $(function () {
+        $("#save").click(function () {
+            $(this).parents("form").submit();
+        })
+    })
+</script>
+{% endblock %}

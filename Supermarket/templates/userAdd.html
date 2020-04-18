@@ -1,0 +1,105 @@
+﻿{% extends 'templates.html' %}
+
+{% block position %}
+    <div class="location">
+        <strong>你现在所在的位置是:</strong>
+        <span>用户管理页面 >> 用户添加页面</span>
+    </div>
+{% endblock %}
+
+{% block main %}
+<div class="providerAdd">
+    <form action="/res/userAdd" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!--div的class 为error是验证错误，ok是验证成功-->
+        <div class="">
+            <label for="userId">用户编码：</label>
+            <input type="text" name="userId" id="userId" placeholder="*请输入用户编码，且不能重复"/>
+            <span style="color: red"></span>
+        </div>
+        <div>
+            <label for="userName">用户名称：</label>
+            <input type="text" name="userName" id="userName" placeholder="*请输入用户名称"/>
+            <span style="color: red">{{ msg }}</span>
+        </div>
+        <div>
+            <label for="userpassword">用户密码：</label>
+            <input type="password" name="pwd" id="userpassword" placeholder="*请输入用户密码"/>
+
+            </div>
+            <div>
+                <label for="userRemi">确认密码：</label>
+                <input type="password" name="pwd" id="userRemi" placeholder="*请再次输入用户密码"/>
+                <span style="color: red"></span>
+            </div>
+            <div>
+                <label>用户性别：</label>
+                <select name="sex">
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+                </select>
+                <span></span>
+            </div>
+            <div>
+                <label for="data">出生日期：</label>
+                <input type="date" name="brith" id="data" placeholder="*请输入用户生日"/>
+                <span></span>
+            </div>
+            <div>
+                <label for="userphone">用户电话：</label>
+                <input type="text" name="tel" id="userphone" placeholder="*请输入用户电话"/>
+                <span></span>
+            </div>
+            <div>
+                <label for="userAddress">用户地址：</label>
+                <input type="text" name="address" id="userAddress" placeholder="*请输入用户地址"/>
+            </div>
+            <div>
+                <label>用户类别：</label>
+                <input type="radio" name="userType" value="1"/>管理员
+                <input type="radio" name="userType" value="2"/>经理
+                <input type="radio" name="userType" value="3"/>普通用户
+
+            </div>
+            <div class="providerAddBtn">
+                <!--<a href="#">保存</a>-->
+                <!--<a href="userList.html">返回</a>-->
+                <input id="save" type="button" value="保存" onclick="history.back(-1)"/>
+                <input type="button" value="返回" onclick="history.back(-1)"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block useradd %}
+<script>
+    $(function () {
+        $("#save").click(function () {
+            $(this).parents("form").submit();
+        });
+
+        $("#userRemi").change(function () {
+            var pwd2 = this.value;
+            var pwd1 = $("#userpassword").val();
+            if (pwd2 != pwd1){
+                $(this).next().html("密码不一致，请重新输入！！！")
+            }
+            else {
+                $(this).next().html("密码一致，符合要求")
+            }
+        });
+
+        $("#userId").change(function () {
+            var tag = $(this) ;
+            // 获取资源名
+            let val = this.value;
+            // jQuery 实现异步请求：
+            // $.get 实现异步请求
+            $.get("/res/check?userId="+val, function(data){
+                tag.next().html(data.msg)
+            },  'json');
+        })
+    })
+</script>
+{% endblock %}

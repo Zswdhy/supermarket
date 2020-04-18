@@ -1,0 +1,93 @@
+﻿{% extends 'templates.html' %}
+
+
+{% block position %}
+    <div class="location">
+        <strong>你现在所在的位置是:</strong>
+        <span>账单管理页面 >> 订单添加页面</span>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <div class="search">
+        <form method="post" action="/res/billList">{% csrf_token %}
+            <span>商品名称：</span>
+            <input type="text" name="commodityName" placeholder="请输入商品的名称"/>
+
+            <span>供应商：</span>
+            <select name="supplier">
+                    <option value="None">--请选择相应的提供商--</option>
+                    {% for key in supplier %}
+                        <option value = "{{ key.id }}">{{ key.supplierName }}</option>
+                    {% endfor %}
+            </select>
+
+            <span>是否付款：</span>
+            <select name="isPay">
+                <option value="None">--请选择--</option>
+                <option value="1">未付款</option>
+                <option value="2">已付款</option>
+            </select>
+
+            <input type="button" id="check" value="查询"/>
+            <a href="/res/billAdd">添加订单</a>
+       </form>
+    </div>
+    <!--账单表格 样式和供应商公用-->
+    <table class="providerTable" cellpadding="0" cellspacing="0">
+        <tr class="firstTr">
+            <th width="10%">账单编码</th>
+            <th width="20%">商品名称</th>
+            <th width="10%">供应商</th>
+            <th width="10%">账单金额</th>
+            <th width="10%">是否付款<p style="color:red"><em>1:未付款 2:已付款</em></p></th>
+            <th width="20%">创建时间</th>
+            <th width="20%">操作</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <td>{{ item.billId }}</td>
+            <td>{{ item.commodityName }}</td>
+            <td>{{ item.supp.supplierName }}</td>
+            <td>{{ item.sumMoney }}</td>
+            <td>{{ item.isPay }}</td>
+            <td>{{ item.datetime | date:"Y-m-d H:i:s" }}</td>
+            <td>
+                <a href="/res/billView?id={{ item.id }}"><img src="/static/img/read.png" alt="查看" title="查看"/></a>
+                <a href="/res/billUpdate/{{ item.id }}"><img src="/static/img/xiugai.png" alt="修改" title="修改"/></a>
+                <a href="/res/deleteBill?id={{ item.id }}" class="removeBill"><img src="/static/img/schu.png" alt="删除" title="删除"/></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{%block schu %}
+
+<!--点击删除按钮后弹出的页面-->
+<div class="zhezhao"></div>
+<div class="remove" id="removeBi">
+    <div class="removerChid">
+        <h2>提示</h2>
+        <div class="removeMain">
+            <p>你确定要删除该订单吗？</p>
+            <a href="#" id="yes">确定</a>
+            <a href="#" id="no">取消</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block billCheck%}
+<script>
+    $(function () {
+
+        $("#check").click(function () {
+            $(this).parents("form").submit()
+        });
+    })
+</script>
+
+{% endblock %}

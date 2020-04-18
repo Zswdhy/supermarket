@@ -1,0 +1,77 @@
+﻿{% extends 'templates.html' %}
+
+
+{% block position %}
+<div class="location">
+    <strong>你现在所在的位置是:</strong>
+    <span>账单管理页面 >> 订单添加页面</span>
+</div>
+{% endblock %}
+
+
+{% block main %}
+<div class="providerAdd">
+    <form action="/res/billAdd" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="">
+            <label for="billId">订单编码：</label>
+            <input type="text" name="billId" id="billId" required placeholder="*请输入订单编码"/>
+            <span style="color:red">{{ msg }}</span>
+        </div>
+        <div>
+            <label for="billName">商品名称：</label>
+            <input type="text" name="commodityName" id="billName" required placeholder="*请输入商品名称"/>
+            <span></span>
+        </div>
+        <div>
+            <label for="billCom">商品单位：</label>
+            <input type="text" name="commodityUnit" id="billCom" required placeholder="*请输入商品单位"/>
+            <span></span>
+
+        </div>
+        <div>
+            <label for="billNum">商品数量：</label>
+            <input type="text" name="commodityNum" id="billNum" required placeholder="*请输入大于0的正自然数，小数点后保留2位"/>
+            <span></span>
+        </div>
+        <div>
+            <label for="money">总金额：</label>
+            <input type="text" name="sumMoney" id="money" required placeholder="*请输入大于0的正自然数，小数点后保留2位"/>
+            <span></span>
+        </div>
+        <div>
+            <label>供应商：</label>
+            <select name="supplier">
+                <option value="0">--请选择相应的提供商--</option>
+                {% for key in data %}
+                    <option value = "{{ key.id }}">{{ key.supplierName }}</option>
+                {% endfor %}
+            </select>
+            <span></span>
+        </div>
+        <div>
+            <label>是否付款：</label>
+            <input type="radio" name="isPay" value="1" checked/>未付款
+            <input type="radio" name="isPay" value="2"/>已付款
+        </div>
+        <div class="providerAddBtn">
+            <!--<a href="#">保存</a>-->
+            <!--<a href="billList.html">返回</a>-->
+            <input id="save" type="button" value="保存" onclick="history.back(-1)"/>
+            <input type="button" value="返回" onclick="history.back(-1)"/>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+
+{% block useradd %}
+<script>
+    $(function () {
+        $("#save").click(function () {
+            $(this).parents("form").submit();
+        })
+    })
+</script>
+{% endblock %}

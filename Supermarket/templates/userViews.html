@@ -1,0 +1,24 @@
+{% extends 'templates.html' %}
+
+{% block position %}
+    <div class="location">
+        <strong>你现在所在的位置是:</strong>
+        <span>用户管理页面 >> 用户信息查看页面</span>
+    </div>
+{% endblock %}
+
+
+{% block main %}
+
+    <div class="providerView">
+        <p><strong>用户编号：</strong><span>{{ data.userId }}</span></p>
+        <p><strong>用户名称：</strong><span>{{ data.userName }}</span></p>
+        <p><strong>用户性别：</strong><span>{{ data.sex }}</span></p>
+        <p><strong>出生日期：</strong><span>{{ data.brith | date:"Y-m-d"}}</span></p>
+        <p><strong>用户电话：</strong><span>{{ data.tel }}</span></p>
+        <p><strong>用户地址：</strong><span>{{ data.address }}</span></p>
+        <p><strong>用户类别：</strong><span>{{ data.userType }}</span></p>
+
+        <a href="/res/userList">返回</a>
+    </div>
+{% endblock %}

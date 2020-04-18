@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>超市账单管理系统</title>
+    <link rel="stylesheet" href="/static/css/public.css"/>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<!--头部-->
+<header class="publicHeader">
+    <h1>超市账单管理系统</h1>
+
+    <div class="publicHeaderR">
+        {% if not request.session.loginFlag %}
+        <p><span id="hours"></span><span style="color: #fff21b">admin</span> , 欢迎你！</p>
+        {% else %}
+            <p><span id="hours"></span><span style="color: #fff21b">{{ userName }}</span> , 欢迎你！</p>
+        {% endif %}
+        <a href="/res/logout">退出</a>
+    </div>
+</header>
+<!--时间-->
+<section class="publicTime">
+    <span id="time">{% block time %}{% endblock %}</span>
+    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+</section>
+<!--主体内容-->
+<section class="publicMian ">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="right">
+        {% block position %}{% endblock %}
+
+
+        {% block main %}{% endblock %}
+
+    </div>
+
+</section>
+
+{%block schu %}{% endblock %}
+<footer class="footer">
+</footer>
+<script src="/static/js/time.js"></script>
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+{% block useradd %}{% endblock %}
+{% block billCheck%}{% endblock%}
+
+</body>
+</html>
